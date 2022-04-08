@@ -13,7 +13,7 @@ header a {
     text-decoration: none;
 }
 
-#startWrap {
+#container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -22,7 +22,7 @@ header a {
 
 }
 
-#startWrap p {
+#container p {
     text-align: center;
     width: 39%;
 }
@@ -40,3 +40,18 @@ button {
     font-size: 17px;
     padding: 2px 4px;
 }
+
+.question {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    margin-top: 40px;
+    
+}
+
+.question button {
+    background-color: purple;
+    margin: 5px;
+}
+
