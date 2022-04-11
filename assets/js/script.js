@@ -110,9 +110,16 @@ function showQuestion() {
 
 function endQuiz() {
     let score = time + correct;
-    localStorage.setItem('score', score);
-    container.innerHTML = `<h2>All done!</h2><p style='text-align: left;'>your final score is ${score}.</p><form>Enter initials<input type='email'><button>Submit</button>`
-    console.log('you finished!')
+    container.innerHTML = `<h2 style='font-size: 24px'>All done!</h2><p style='text-align: left;'>your final score is ${score}.</p><form>Enter initials:<input id="initialInput" type='text' max='3'><button id='submit'>Submit</button>`;
+    document.querySelector('#submit').addEventListener("click", function() {
+        console.log('clicked')
+        let initial = document.querySelector('#initialInput').value;
+        localStorage.setItem('storedScores', score);
+        localStorage.setItem('storedInitials', JSON.stringify(initial));
+        window.open('/Users/chadd/UCSD-bootcamp/projects/codingQuiz/assets/scores/scores.html');
+    })
+    
+    
 }
 
 

@@ -87,3 +87,16 @@ h1 {
 hr {
     background-color: gray;
 }
+
+#initialInput {
+    margin: 5px;
+}
+
+#submit {
+    background-color: purple;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    padding: 2px 4px;
+}
