@@ -5,6 +5,10 @@ startBtn.addEventListener("click", startingQuiz);
 let container = document.querySelector('#container')
 let question = document.createElement('div');
 let options = document.createElement('div');
+let message = document.createElement('div');
+message.setAttribute('id', 'message');
+let messageP = document.createElement('p');
+let hr = document.createElement('hr');
 
 
 question.classList.add('question');
@@ -59,12 +63,17 @@ let questions = [
     },
 ]
 let questionX = 0;
+let time = 75;
+let correct = 0
 
 function startingQuiz() {
     remove()
     countDown()
     container.append(question);
     container.append(options);
+    container.append(message);
+    message.append(hr);
+    message.append(messageP);
     showQuestion();
 }
 
@@ -81,23 +90,28 @@ function showQuestion() {
         btn.addEventListener('click', next)
     }
     function next() {
+        message.style.display = 'block';
         questionX++
         if (questionX >= questions.length ) {
             endQuiz()
         }
         else if (this.attributes[1].value == 'true') {
-            console.log('u right');
+            messageP.textContent = 'Correct!';
+            correct = correct + 5;
             showQuestion();
         }
         else {
-            console.log('u wrong');
+            messageP.textContent = 'Wrong!';
+            time = time - 5;
             showQuestion();
         }
     }
 }
 
 function endQuiz() {
-    remove();
+    let score = time + correct;
+    localStorage.setItem('score', score);
+    container.innerHTML = `<h2>All done!</h2><p style='text-align: left;'>your final score is ${score}.</p><form>Enter initials<input type='email'><button>Submit</button>`
     console.log('you finished!')
 }
 
@@ -111,7 +125,7 @@ function remove() {
 }
 
 function countDown() {
-    let time = 75;
+    
     timer.textContent = time;
     let timeInterval = setInterval(function() {
     time--;
