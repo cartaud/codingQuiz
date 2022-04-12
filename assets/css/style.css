@@ -109,6 +109,10 @@ hr {
     margin-top: 10px;
 }
 
+#msgContainer p {
+    margin-top: 10px;
+}
+
 button:hover {
     opacity: 50%;
 }
