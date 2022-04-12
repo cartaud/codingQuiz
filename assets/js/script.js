@@ -1,3 +1,4 @@
+//targeting all html elements that I will need
 let timer = document.querySelector("#time");
 let start = document.querySelector(".one")
 let startBtn = document.querySelector("#startBtn");
@@ -14,7 +15,7 @@ let msgContainer = document.querySelector('#msgContainer');
 question.classList.add('question');
 options.classList.add('options');
 
-
+//array of all quiz questions and the different options and their value
 let questions = [
     {
         question: "Commonly used data types DO NOT include:",
@@ -62,14 +63,14 @@ let questions = [
         ]
     },
 ]
+//initializing variables
 let questionX = 0;
 let time = 75;
 let correct = 0;
-// let scores = JSON.parse(localStorage.getItem('storedScores')) || [];
-// let initials = JSON.parse(localStorage.getItem('storedInitials')) || [];
 
+//when button is pressed, the timer starts and the required html elements get appended to container
 function startingQuiz() {
-    remove()
+    container.innerHTML = '';
     countDown()
     container.append(question);
     container.append(options);
@@ -78,9 +79,9 @@ function startingQuiz() {
     message.append(messageP);
     showQuestion();
 }
-
+//neatly display each question one at a time until user chooses an answer
 function showQuestion() {
-    // question global variable for looping through 
+    
     options.innerHTML = '';
     question.innerHTML = questions[questionX].question;
     for (let i=0;i<4;i++) {
@@ -91,43 +92,41 @@ function showQuestion() {
         btn.textContent = questions[questionX].answers[i].option;
         btn.addEventListener('click', next)
     }
-    
+    //when user chooses an answer, this function determines if that value is true or false (right or wrong)
     function next() {
-        questionX++
+        questionX++ //keeps track of current question number
         let timeMsg = 2;
-        if (this.attributes[1].value == 'true') {
-            correct = correct + 5;
+        if (this.attributes[1].value == 'true') { //if user selects the right answer, this runs
+            correct = correct + 5; //increases user score by 5 when they get question right
             message.style.display = 'block';
             messageP.textContent = 'Correct!'; 
-            let timeMsgInterval = setInterval(function() {
+            let timeMsgInterval = setInterval(function() { //displays "Correct!" on screen for two seconds"
                 timeMsg--;
                 if (timeMsg == 0 ) {
                     clearInterval(timeMsgInterval);
                     messageP.textContent = '';
                     message.style.display = 'none';
                 }
-                
             }, 1000)
-            if (questionX >= questions.length ) {
+            if (questionX >= questions.length ) { //if user answered the last question, endQuiz function will run
                 endQuiz()
             }
-            else {
+            else { //if quiz is not over, display the next question
                 showQuestion();
             }
         }
-        else {
+        else { //if user chooses the wrong answer, this will run
             messageP.textContent = 'Wrong!';
-            time = time - 14;
+            time = time - 14; //subtract 14 seconds from timer when user get question wrong
             message.style.display = 'block';
              
-            let timeMsgInterval = setInterval(function() {
+            let timeMsgInterval = setInterval(function() { //displays "Wrong!" on screen for two seconds"
                 timeMsg--;
                 if (timeMsg == 0 ) {
                     clearInterval(timeMsgInterval);
                     messageP.textContent = '';
                     message.style.display = 'none';
                 }
-                
             }, 1000)
             if (questionX >= questions.length ) {
                 endQuiz()
@@ -138,42 +137,30 @@ function showQuestion() {
         }
     }
 }
-var scoreData = JSON.parse(localStorage.getItem('scoreData')) || [];
-console.log(scoreData)
-function endQuiz() {
-    let score = time + correct;
+//stores array of objects that contains user score and initials for each round
+var scoreData = JSON.parse(localStorage.getItem('scoreData')) || []; 
+function endQuiz() { //when quiz is over, this will run
+    let score = time + correct; //calculates user score based off of remaining time and amount they got right
     container.innerHTML = `<h2 style='font-size: 24px'>All done!</h2><p style='text-align: left;'>your final score is ${score}.</p><form>Enter initials:<input id="initialInput" type='text' maxLength='3'><button id='submit'>Submit</button>`;
     document.querySelector('#submit').addEventListener("click", function(event) {
         event.preventDefault();
         let initial = document.querySelector('#initialInput').value.toUpperCase();
-        scoreData[scoreData.length] = {score, initial}
-        scoreData.sort(function(a,b) {return a.score - b.score;}).reverse();
-        localStorage.setItem('scoreData', JSON.stringify(scoreData));
-        window.open('./assets/scores/scores.html', '_self');
+        scoreData[scoreData.length] = {score, initial} //creates new entry in scoreData for this current round
+        scoreData.sort(function(a,b) {return a.score - b.score;}).reverse(); //sorts array from highest score to lowest
+        localStorage.setItem('scoreData', JSON.stringify(scoreData)); //stores the sorted array in local
+        window.open('https://cartaud.github.io/codingQuiz/assets/scores/scores.html', '_self'); //opens up scoreboard page
     })
 }
-// scores.push(score)
-// initials.push(initial);
-// localStorage.setItem('storedScores', JSON.stringify(scores));
-// localStorage.setItem('storedInitials', JSON.stringify(initials));
 
-function remove() {
-    let child = container.lastElementChild;
-    while (child) {
-        container.removeChild(child);
-        child = container.lastElementChild;
-    }
-}
-
-function countDown() {
+function countDown() { //Timer for the quiz
     timer.textContent = time;
     let timeInterval = setInterval(function() {
     time--;
     timer.textContent = time; 
-    if (questionX >= questions.length ) {
+    if (questionX >= questions.length ) { //if last question is answered, stop timer
         clearInterval(timeInterval);
     }
-    else if (time == 0) {
+    else if (time == 0) { //if timer gets to zero, stop timer
         timer.textContent = time;
         clearInterval(timeInterval);
     }
