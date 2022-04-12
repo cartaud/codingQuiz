@@ -7,3 +7,7 @@ view the page <a href="https://cartaud.github.io/codingQuiz/" target="_blank">he
 preview 
 
 <img width="300px" src="" alt="page preview">
+
+<img width="300px" src="" alt="page preview">
+
+<img width="300px" src="" alt="page preview">
