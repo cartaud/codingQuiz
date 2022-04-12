@@ -8,6 +8,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 30%;
 }
 
 h1 {
@@ -20,15 +21,17 @@ button {
     margin: 1px;
     border: none;
     border-radius: 5px;
-    font-size: 17px;
+    font-size: 15px;
     padding: 2px 4px;
 }
 
-ol {
-    margin-left: 17px;
-    background-color: purple;
-    
+#scoreList p {
+    background-color: rgb(237, 200, 237);
     color: black;
-    
+    font-size: 15px;
+    margin:10px 0;
+    padding: 3px;
 }
+
+
 

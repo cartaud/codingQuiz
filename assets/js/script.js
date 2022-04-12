@@ -9,7 +9,7 @@ let message = document.createElement('div');
 message.setAttribute('id', 'message');
 let messageP = document.createElement('p');
 let hr = document.createElement('hr');
-
+let msgContainer = document.querySelector('#msgContainer');
 
 question.classList.add('question');
 options.classList.add('options');
@@ -65,15 +65,15 @@ let questions = [
 let questionX = 0;
 let time = 75;
 let correct = 0;
-let scores = JSON.parse(localStorage.getItem('storedScores')) || [];
-let initials = JSON.parse(localStorage.getItem('storedInitials')) || [];
+// let scores = JSON.parse(localStorage.getItem('storedScores')) || [];
+// let initials = JSON.parse(localStorage.getItem('storedInitials')) || [];
 
 function startingQuiz() {
     remove()
     countDown()
     container.append(question);
     container.append(options);
-    container.append(message);
+    msgContainer.append(message);
     message.append(hr);
     message.append(messageP);
     showQuestion();
@@ -91,41 +91,71 @@ function showQuestion() {
         btn.textContent = questions[questionX].answers[i].option;
         btn.addEventListener('click', next)
     }
+    
     function next() {
-        message.style.display = 'block';
         questionX++
-        if (questionX >= questions.length ) {
-            endQuiz()
-        }
-        else if (this.attributes[1].value == 'true') {
-            messageP.textContent = 'Correct!';
+        let timeMsg = 2;
+        if (this.attributes[1].value == 'true') {
             correct = correct + 5;
-            showQuestion();
+            message.style.display = 'block';
+            messageP.textContent = 'Correct!'; 
+            let timeMsgInterval = setInterval(function() {
+                timeMsg--;
+                if (timeMsg == 0 ) {
+                    clearInterval(timeMsgInterval);
+                    messageP.textContent = '';
+                    message.style.display = 'none';
+                }
+                
+            }, 1000)
+            if (questionX >= questions.length ) {
+                endQuiz()
+            }
+            else {
+                showQuestion();
+            }
         }
         else {
             messageP.textContent = 'Wrong!';
-            time = time - 5;
-            showQuestion();
+            time = time - 14;
+            message.style.display = 'block';
+             
+            let timeMsgInterval = setInterval(function() {
+                timeMsg--;
+                if (timeMsg == 0 ) {
+                    clearInterval(timeMsgInterval);
+                    messageP.textContent = '';
+                    message.style.display = 'none';
+                }
+                
+            }, 1000)
+            if (questionX >= questions.length ) {
+                endQuiz()
+            }
+            else {
+                showQuestion();
+            }
         }
     }
 }
-
+var scoreData = JSON.parse(localStorage.getItem('scoreData')) || [];
+console.log(scoreData)
 function endQuiz() {
     let score = time + correct;
-    scores.push(score)
-    container.innerHTML = `<h2 style='font-size: 24px'>All done!</h2><p style='text-align: left;'>your final score is ${score}.</p><form>Enter initials:<input id="initialInput" type='text' max='3'><button id='submit'>Submit</button>`;
-    document.querySelector('#submit').addEventListener("click", function() {
-        console.log(scores)
-        let initial = document.querySelector('#initialInput').value;
-        initials.push(initial);
-        localStorage.setItem('storedScores', JSON.stringify(scores));
-        localStorage.setItem('storedInitials', JSON.stringify(initials));
-        window.open('/Users/chadd/UCSD-bootcamp/projects/codingQuiz/assets/scores/scores.html', '_self');
+    container.innerHTML = `<h2 style='font-size: 24px'>All done!</h2><p style='text-align: left;'>your final score is ${score}.</p><form>Enter initials:<input id="initialInput" type='text' maxLength='3'><button id='submit'>Submit</button>`;
+    document.querySelector('#submit').addEventListener("click", function(event) {
+        event.preventDefault();
+        let initial = document.querySelector('#initialInput').value.toUpperCase();
+        scoreData[scoreData.length] = {score, initial}
+        scoreData.sort(function(a,b) {return a.score - b.score;}).reverse();
+        localStorage.setItem('scoreData', JSON.stringify(scoreData));
+        window.open('./assets/scores/scores.html', '_self');
     })
-    
-    
 }
-
+// scores.push(score)
+// initials.push(initial);
+// localStorage.setItem('storedScores', JSON.stringify(scores));
+// localStorage.setItem('storedInitials', JSON.stringify(initials));
 
 function remove() {
     let child = container.lastElementChild;
@@ -140,8 +170,10 @@ function countDown() {
     let timeInterval = setInterval(function() {
     time--;
     timer.textContent = time; 
-    
-    if (time == 0) {
+    if (questionX >= questions.length ) {
+        clearInterval(timeInterval);
+    }
+    else if (time == 0) {
         timer.textContent = time;
         clearInterval(timeInterval);
     }
