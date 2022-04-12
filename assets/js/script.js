@@ -64,7 +64,9 @@ let questions = [
 ]
 let questionX = 0;
 let time = 75;
-let correct = 0
+let correct = 0;
+let scores = JSON.parse(localStorage.getItem('storedScores')) || [];
+let initials = JSON.parse(localStorage.getItem('storedInitials')) || [];
 
 function startingQuiz() {
     remove()
@@ -110,13 +112,15 @@ function showQuestion() {
 
 function endQuiz() {
     let score = time + correct;
+    scores.push(score)
     container.innerHTML = `<h2 style='font-size: 24px'>All done!</h2><p style='text-align: left;'>your final score is ${score}.</p><form>Enter initials:<input id="initialInput" type='text' max='3'><button id='submit'>Submit</button>`;
     document.querySelector('#submit').addEventListener("click", function() {
-        console.log('clicked')
+        console.log(scores)
         let initial = document.querySelector('#initialInput').value;
-        localStorage.setItem('storedScores', score);
-        localStorage.setItem('storedInitials', JSON.stringify(initial));
-        window.open('/Users/chadd/UCSD-bootcamp/projects/codingQuiz/assets/scores/scores.html');
+        initials.push(initial);
+        localStorage.setItem('storedScores', JSON.stringify(scores));
+        localStorage.setItem('storedInitials', JSON.stringify(initials));
+        window.open('/Users/chadd/UCSD-bootcamp/projects/codingQuiz/assets/scores/scores.html', '_self');
     })
     
     
@@ -132,7 +136,6 @@ function remove() {
 }
 
 function countDown() {
-    
     timer.textContent = time;
     let timeInterval = setInterval(function() {
     time--;
@@ -141,8 +144,6 @@ function countDown() {
     if (time == 0) {
         timer.textContent = time;
         clearInterval(timeInterval);
-       
     }
-
     }, 1000)
 }
