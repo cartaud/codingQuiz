@@ -6,8 +6,8 @@ view the page <a href="https://cartaud.github.io/codingQuiz/" target="_blank">he
 
 preview 
 
-<img width="300px" src="https://github.com/cartaud/codingQuiz/blob/main/assets/images/one.png?raw=true" alt="page preview">
+<img width="600px" src="https://github.com/cartaud/codingQuiz/blob/main/assets/images/one.png?raw=true" alt="page preview">
 
-<img width="300px" src="https://github.com/cartaud/codingQuiz/blob/main/assets/images/two.png?raw=true" alt="page preview">
+<img width="600px" src="https://github.com/cartaud/codingQuiz/blob/main/assets/images/two.png?raw=true" alt="page preview">
 
-<img width="300px" src="https://github.com/cartaud/codingQuiz/blob/main/assets/images/three.png?raw=true" alt="page preview">
+<img width="600px" src="https://github.com/cartaud/codingQuiz/blob/main/assets/images/three.png?raw=true" alt="page preview">
