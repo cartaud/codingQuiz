@@ -1,6 +1,5 @@
 //targeting all html elements that I will need
 let timer = document.querySelector("#time");
-let start = document.querySelector(".one")
 let startBtn = document.querySelector("#startBtn");
 startBtn.addEventListener("click", startingQuiz);
 let container = document.querySelector('#container')
@@ -71,7 +70,7 @@ let correct = 0;
 //when button is pressed, the timer starts and the required html elements get appended to container
 function startingQuiz() {
     container.innerHTML = '';
-    countDown()
+    countDown();
     container.append(question);
     container.append(options);
     msgContainer.append(message);
@@ -117,7 +116,7 @@ function showQuestion() {
         }
         else { //if user chooses the wrong answer, this will run
             messageP.textContent = 'Wrong!';
-            time = time - 14; //subtract 14 seconds from timer when user get question wrong
+            time = time - 10; //subtract 10 seconds from timer when user get question wrong
             message.style.display = 'block';
              
             let timeMsgInterval = setInterval(function() { //displays "Wrong!" on screen for two seconds"
